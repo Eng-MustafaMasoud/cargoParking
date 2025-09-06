@@ -20,8 +20,6 @@ import {
   Clock,
   Plus,
   Edit,
-  AlertCircle,
-  CheckCircle,
   MapPin,
   TrendingUp,
   Activity,
@@ -36,7 +34,6 @@ const AdminDashboard = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [adminLog, setAdminLog] = useState([]);
-  const [wsConnected, setWsConnected] = useState(false);
 
   // Chart colors
   const COLORS = [
@@ -83,11 +80,6 @@ const AdminDashboard = () => {
   const queryClient = useQueryClient();
   const { isConnected, error } = useWebSocket("admin");
 
-  // WebSocket connection for admin updates
-  useEffect(() => {
-    console.log("AdminDashboard - WebSocket status:", { isConnected, error });
-    setWsConnected(isConnected);
-  }, [isConnected, error]);
 
   // Fetch parking state report
   const { data: parkingReport = [], isLoading: reportLoading } = useQuery({
@@ -190,18 +182,6 @@ const AdminDashboard = () => {
               <p className="text-gray-600">
                 Manage parking system settings and monitor status
               </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center">
-                {wsConnected ? (
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                ) : (
-                  <AlertCircle className="h-5 w-5 text-red-500" />
-                )}
-                <span className="ml-2 text-sm text-gray-600">
-                  {wsConnected ? "Connected" : "Disconnected"}
-                </span>
-              </div>
             </div>
           </div>
         </div>

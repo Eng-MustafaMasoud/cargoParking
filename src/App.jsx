@@ -22,9 +22,6 @@ import Users from "./pages/Users.jsx";
 import Settings from "./pages/Settings.jsx";
 
 // Lazy load additional components
-const WebSocketStatus = lazy(() =>
-  import(/* webpackChunkName: "websocket" */ "./components/WebSocketStatus.jsx")
-);
 
 // Lazy load page components with chunk names for better code splitting
 const Login = lazy(() => import("./pages/Login.jsx"));
@@ -220,9 +217,6 @@ const AppRoutes = () => {
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
-      <Suspense fallback={<div className="hidden" />}>
-        <WebSocketStatus />
       </Suspense>
       <PerformanceMonitor />
     </>

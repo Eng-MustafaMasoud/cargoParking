@@ -71,14 +71,14 @@ const Layout = ({ children }) => {
         <motion.button
           onClick={handleSidebarToggle}
           className="fixed top-4 left-4 z-50 p-3 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
-          whileHover={{ 
+          whileHover={{
             scale: 1.1,
             rotate: 5,
-            transition: { type: "spring", stiffness: 400, damping: 25 }
+            transition: { type: "spring", stiffness: 400, damping: 25 },
           }}
-          whileTap={{ 
+          whileTap={{
             scale: 0.95,
-            transition: { type: "spring", stiffness: 400, damping: 25 }
+            transition: { type: "spring", stiffness: 400, damping: 25 },
           }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}

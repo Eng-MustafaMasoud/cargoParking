@@ -176,59 +176,139 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         )}
       </AnimatePresence>
 
-      {/* Sidebar Toggle Button - Always visible on desktop */}
+      {/* Ultra-Modern Sidebar Toggle Button */}
       {!isMobile && (
         <motion.button
           onClick={onToggle}
-          className="fixed top-6 left-6 z-50 w-12 h-12 bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm border border-gray-200/60 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+          className="fixed top-6 left-6 z-50 w-14 h-14 bg-gradient-to-br from-white via-gray-50 to-gray-100 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center group overflow-hidden"
           whileHover={{
-            scale: 1.05,
-            y: -2,
-            transition: { type: "spring", stiffness: 400, damping: 25 },
+            scale: 1.08,
+            y: -3,
+            rotate: 2,
+            transition: { type: "spring", stiffness: 300, damping: 20 },
           }}
           whileTap={{
-            scale: 0.95,
+            scale: 0.92,
             transition: { type: "spring", stiffness: 400, damping: 25 },
           }}
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 25 }}
+          initial={{ opacity: 0, scale: 0.5, y: -30, rotate: -180 }}
+          animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+          transition={{
+            delay: 0.4,
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+          }}
         >
+          {/* Animated Background Glow */}
           <motion.div
-            animate={{ 
-              rotate: isOpen ? 0 : 0,
-              scale: isOpen ? 1 : 1.1
+            className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0, 0.3, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatDelay: 3,
+            }}
+          />
+          
+          {/* Pulsing Ring Effect */}
+          <motion.div
+            className="absolute inset-0 border-2 border-blue-400/30 rounded-2xl"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatDelay: 2,
+            }}
+          />
+
+          {/* Icon Container */}
+          <motion.div
+            className="relative z-10"
+            animate={{
+              scale: isOpen ? 1 : 1.1,
+              rotate: isOpen ? 0 : 5,
             }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200"
           >
             {isOpen ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
+                key="close"
+                initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300"
               >
-                <X className="w-6 h-6" />
+                <X className="w-7 h-7" />
               </motion.div>
             ) : (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
-                className="flex items-center justify-center"
+                key="menu"
+                initial={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-7 h-7" />
               </motion.div>
             )}
           </motion.div>
-          
-          {/* Tooltip */}
+
+          {/* Modern Tooltip */}
           <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            whileHover={{ opacity: 1, x: 0 }}
-            className="absolute right-full mr-3 px-2 py-1 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap pointer-events-none"
+            initial={{ opacity: 0, x: -15, y: 0 }}
+            whileHover={{ opacity: 1, x: 0, y: 0 }}
+            className="absolute right-full mr-4 px-3 py-2 bg-gray-900/95 backdrop-blur-sm text-white text-sm font-medium rounded-xl whitespace-nowrap pointer-events-none shadow-xl border border-white/10"
           >
-            {isOpen ? "Close Sidebar" : "Open Sidebar"}
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+              <span>{isOpen ? "Close Sidebar" : "Open Sidebar"}</span>
+            </div>
+            {/* Tooltip Arrow */}
+            <div className="absolute left-full top-1/2 -translate-y-1/2 w-0 h-0 border-l-8 border-l-gray-900/95 border-t-4 border-t-transparent border-b-4 border-b-transparent" />
+          </motion.div>
+
+          {/* Floating Particles Effect */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay: 4,
+            }}
+          >
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-blue-400 rounded-full"
+                style={{
+                  left: `${20 + i * 30}%`,
+                  top: `${30 + i * 20}%`,
+                }}
+                animate={{
+                  y: [-10, -20, -10],
+                  opacity: [0, 1, 0],
+                  scale: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  delay: i * 0.3,
+                  repeat: Infinity,
+                  repeatDelay: 5,
+                }}
+              />
+            ))}
           </motion.div>
         </motion.button>
       )}

@@ -9,9 +9,11 @@ import {
   ChevronRight,
   Home,
   Building2,
+  Menu,
+  X,
 } from "lucide-react";
 
-const Header = ({ onSidebarToggle }) => {
+const Header = ({ onSidebarToggle, sidebarOpen = false, isMobile = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -85,8 +87,20 @@ const Header = ({ onSidebarToggle }) => {
   return (
     <header className="bg-white/90 backdrop-blur-xl shadow-sm border-b border-gray-200/50 sticky top-0 z-40">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        {/* Left side - Breadcrumbs */}
+        {/* Left side - Toggle button and breadcrumbs */}
         <div className="flex items-center space-x-4">
+          {/* Sidebar Toggle Button */}
+          <button
+            onClick={onSidebarToggle}
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+          >
+            {sidebarOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
+
           {/* Breadcrumbs */}
           <nav className="hidden sm:flex items-center space-x-1 text-sm">
             {breadcrumbs.map((breadcrumb, index) => {

@@ -91,7 +91,7 @@ const Header = ({ onSidebarToggle }) => {
           {/* Sidebar toggle */}
           <motion.button
             onClick={onSidebarToggle}
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:shadow-sm"
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:shadow-sm border border-gray-200 bg-white/50"
             whileHover={{ 
               scale: 1.1,
               rotate: 5,

@@ -176,6 +176,37 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         )}
       </AnimatePresence>
 
+      {/* Arrow Toggle Button - Always visible on desktop */}
+      {!isMobile && (
+        <motion.button
+          onClick={onToggle}
+          className="fixed top-4 right-4 z-50 w-10 h-10 bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+          whileHover={{
+            scale: 1.1,
+            transition: { type: "spring", stiffness: 400, damping: 25 },
+          }}
+          whileTap={{
+            scale: 0.95,
+            transition: { type: "spring", stiffness: 400, damping: 25 },
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="text-gray-600 group-hover:text-gray-800 transition-colors duration-200"
+          >
+            {isOpen ? (
+              <ChevronLeft className="w-5 h-5" />
+            ) : (
+              <ChevronRight className="w-5 h-5" />
+            )}
+          </motion.div>
+        </motion.button>
+      )}
+
       {/* Sidebar */}
       <motion.div
         variants={sidebarVariants}
@@ -183,32 +214,6 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         animate={isOpen ? "open" : "closed"}
         className="fixed inset-y-0 left-0 z-40 w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50"
       >
-        {/* Arrow Toggle Button - Only show on desktop */}
-        {!isMobile && (
-          <motion.button
-            onClick={onToggle}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 z-50 w-6 h-12 bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-r-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-            whileHover={{
-              scale: 1.05,
-              transition: { type: "spring", stiffness: 400, damping: 25 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { type: "spring", stiffness: 400, damping: 25 },
-            }}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <motion.div
-              animate={{ rotate: isOpen ? 180 : 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="text-gray-600 group-hover:text-gray-800 transition-colors duration-200"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </motion.div>
-          </motion.button>
-        )}
 
         <div className="flex flex-col h-full">
           {/* Header */}

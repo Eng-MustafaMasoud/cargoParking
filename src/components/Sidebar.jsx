@@ -377,7 +377,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

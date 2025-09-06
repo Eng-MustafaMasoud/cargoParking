@@ -13,8 +13,8 @@ const Layout = ({ children }) => {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // Auto-close sidebar on mobile when screen size changes
@@ -46,16 +46,18 @@ const Layout = ({ children }) => {
 
       <div className="flex min-h-screen">
         {/* Sidebar */}
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          onToggle={handleSidebarToggle} 
+        <Sidebar
+          isOpen={sidebarOpen}
+          onToggle={handleSidebarToggle}
           isMobile={isMobile}
         />
 
         {/* Main content area */}
-        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
-          !isMobile && sidebarOpen ? 'lg:ml-64' : ''
-        }`}>
+        <div
+          className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
+            !isMobile && sidebarOpen ? "lg:ml-64" : ""
+          }`}
+        >
           {/* Header */}
           <Header onSidebarToggle={handleSidebarToggle} />
 

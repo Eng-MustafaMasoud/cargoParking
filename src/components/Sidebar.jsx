@@ -180,13 +180,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         variants={sidebarVariants}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
-        className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 ${
-          isMobile 
-            ? "fixed inset-y-0 left-0 z-50" 
-            : isOpen 
-              ? "fixed inset-y-0 left-0 z-40" 
-              : "hidden"
-        }`}
+        className="fixed inset-y-0 left-0 z-40 w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50"
       >
         <div className="flex flex-col h-full">
           {/* Header */}

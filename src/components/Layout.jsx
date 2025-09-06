@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Sidebar from "./Sidebar.jsx";
 import Header from "./Header.jsx";
 
@@ -11,13 +13,6 @@ const Layout = ({ children }) => {
     const checkScreenSize = () => {
       const mobile = window.innerWidth < 1024; // lg breakpoint
       setIsMobile(mobile);
-
-      // On desktop, start with sidebar open
-      if (!mobile) {
-        setSidebarOpen(true);
-      } else {
-        setSidebarOpen(false);
-      }
     };
 
     checkScreenSize();
@@ -56,7 +51,7 @@ const Layout = ({ children }) => {
         {/* Main content area */}
         <div
           className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
-            !isMobile && sidebarOpen ? "ml-64" : ""
+            sidebarOpen ? "ml-64" : ""
           }`}
         >
           {/* Header */}
@@ -71,6 +66,35 @@ const Layout = ({ children }) => {
             </div>
           </main>
         </div>
+
+        {/* Floating Toggle Button */}
+        <motion.button
+          onClick={handleSidebarToggle}
+          className="fixed top-4 left-4 z-50 p-3 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+          whileHover={{ 
+            scale: 1.1,
+            rotate: 5,
+            transition: { type: "spring", stiffness: 400, damping: 25 }
+          }}
+          whileTap={{ 
+            scale: 0.95,
+            transition: { type: "spring", stiffness: 400, damping: 25 }
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.div
+            animate={{ rotate: sidebarOpen ? 90 : 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          >
+            {sidebarOpen ? (
+              <X className="w-5 h-5 text-gray-700" />
+            ) : (
+              <Menu className="w-5 h-5 text-gray-700" />
+            )}
+          </motion.div>
+        </motion.button>
       </div>
     </div>
   );

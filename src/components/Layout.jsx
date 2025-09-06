@@ -71,20 +71,30 @@ const Layout = ({ children }) => {
         {isMobile && !sidebarOpen && (
           <motion.button
             onClick={handleSidebarToggle}
-            className="fixed top-4 left-4 z-50 p-3 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="fixed top-6 left-6 z-50 w-12 h-12 bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm border border-gray-200/60 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
             whileHover={{
               scale: 1.05,
+              y: -2,
               transition: { type: "spring", stiffness: 400, damping: 25 },
             }}
             whileTap={{
               scale: 0.95,
               transition: { type: "spring", stiffness: 400, damping: 25 },
             }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
+            initial={{ opacity: 0, scale: 0.8, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 25 }}
           >
-            <Menu className="w-5 h-5 text-gray-700" />
+            <Menu className="w-6 h-6 text-gray-700 group-hover:text-gray-900 transition-colors duration-200" />
+            
+            {/* Tooltip */}
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              whileHover={{ opacity: 1, x: 0 }}
+              className="absolute right-full mr-3 px-2 py-1 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap pointer-events-none"
+            >
+              Open Sidebar
+            </motion.div>
           </motion.button>
         )}
 

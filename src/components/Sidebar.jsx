@@ -87,9 +87,9 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 30,
-        staggerChildren: 0.1,
+        stiffness: 400,
+        damping: 25,
+        staggerChildren: 0.08,
         delayChildren: 0.1,
       },
     },
@@ -98,8 +98,8 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
       opacity: 0,
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 30,
+        stiffness: 400,
+        damping: 25,
         staggerChildren: 0.05,
         staggerDirection: -1,
       },
@@ -176,6 +176,63 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         )}
       </AnimatePresence>
 
+      {/* Sidebar Toggle Button - Always visible on desktop */}
+      {!isMobile && (
+        <motion.button
+          onClick={onToggle}
+          className="fixed top-6 left-6 z-50 w-12 h-12 bg-gradient-to-br from-white to-gray-50 backdrop-blur-sm border border-gray-200/60 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+          whileHover={{
+            scale: 1.05,
+            y: -2,
+            transition: { type: "spring", stiffness: 400, damping: 25 },
+          }}
+          whileTap={{
+            scale: 0.95,
+            transition: { type: "spring", stiffness: 400, damping: 25 },
+          }}
+          initial={{ opacity: 0, scale: 0.8, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 25 }}
+        >
+          <motion.div
+            animate={{ 
+              rotate: isOpen ? 0 : 0,
+              scale: isOpen ? 1 : 1.1
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="text-gray-700 group-hover:text-gray-900 transition-colors duration-200"
+          >
+            {isOpen ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                <X className="w-6 h-6" />
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="flex items-center justify-center"
+              >
+                <Menu className="w-6 h-6" />
+              </motion.div>
+            )}
+          </motion.div>
+          
+          {/* Tooltip */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            whileHover={{ opacity: 1, x: 0 }}
+            className="absolute right-full mr-3 px-2 py-1 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap pointer-events-none"
+          >
+            {isOpen ? "Close Sidebar" : "Open Sidebar"}
+          </motion.div>
+        </motion.button>
+      )}
+
       {/* Sidebar */}
       <motion.div
         variants={sidebarVariants}
@@ -183,37 +240,6 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         animate={isOpen ? "open" : "closed"}
         className="fixed inset-y-0 left-0 z-40 w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50"
       >
-        {/* Arrow Toggle Button - Top-right of sidebar */}
-        {!isMobile && (
-          <motion.button
-            onClick={onToggle}
-            className="absolute -right-3 top-4 z-50 w-8 h-8 bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-            whileHover={{
-              scale: 1.1,
-              transition: { type: "spring", stiffness: 400, damping: 25 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { type: "spring", stiffness: 400, damping: 25 },
-            }}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <motion.div
-              animate={{ rotate: isOpen ? 180 : 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="text-gray-600 group-hover:text-gray-800 transition-colors duration-200"
-            >
-              {isOpen ? (
-                <ChevronLeft className="w-4 h-4" />
-              ) : (
-                <ChevronRight className="w-4 h-4" />
-              )}
-            </motion.div>
-          </motion.button>
-        )}
-
         <div className="flex flex-col h-full">
           {/* Header */}
           <motion.div

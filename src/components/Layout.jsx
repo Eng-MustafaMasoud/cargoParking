@@ -31,11 +31,6 @@ const Layout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50/30">
-      {/* Debug info - remove in production */}
-      <div className="fixed top-0 right-0 bg-black/80 text-white p-2 text-xs z-50">
-        Mobile: {isMobile ? 'Yes' : 'No'} | Sidebar: {sidebarOpen ? 'Open' : 'Closed'}
-      </div>
-      
       {/* Background Pattern */}
       <div className="fixed inset-0 bg-hero-pattern opacity-5 pointer-events-none"></div>
 

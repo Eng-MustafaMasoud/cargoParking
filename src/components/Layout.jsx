@@ -9,7 +9,14 @@ const Layout = ({ children }) => {
   // Check if screen is mobile
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+      const mobile = window.innerWidth < 1024; // lg breakpoint
+      console.log('Screen size check:', { width: window.innerWidth, mobile, sidebarOpen });
+      setIsMobile(mobile);
+      
+      // On desktop, start with sidebar closed
+      if (!mobile) {
+        setSidebarOpen(false);
+      }
     };
 
     checkScreenSize();
@@ -17,12 +24,10 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Auto-close sidebar on mobile when screen size changes
+  // Debug sidebar state
   useEffect(() => {
-    if (!isMobile && sidebarOpen) {
-      setSidebarOpen(false);
-    }
-  }, [isMobile, sidebarOpen]);
+    console.log('Sidebar state changed:', { sidebarOpen, isMobile });
+  }, [sidebarOpen, isMobile]);
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -55,7 +60,7 @@ const Layout = ({ children }) => {
         {/* Main content area */}
         <div
           className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
-            !isMobile && sidebarOpen ? "lg:ml-64" : ""
+            !isMobile && sidebarOpen ? "ml-64" : ""
           }`}
         >
           {/* Header */}

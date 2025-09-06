@@ -18,6 +18,9 @@ import {
 
 const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
   const location = useLocation();
+  
+  // Debug props
+  console.log('Sidebar props:', { isOpen, isMobile, pathname: location.pathname });
 
   const navigation = [
     {
@@ -180,8 +183,8 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         animate={isOpen ? "open" : "closed"}
         className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 ${
           isMobile
-            ? `fixed inset-y-0 left-0 z-50 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
-            : `static ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`
+            ? "fixed inset-y-0 left-0 z-50"
+            : "static"
         }`}
       >
         <div className="flex flex-col h-full">
@@ -213,11 +216,16 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
               <motion.button
                 onClick={onToggle}
                 className="text-white hover:text-primary-200 hover:bg-white/10 p-2 rounded-lg transition-all duration-200"
-                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
-                <X className="w-5 h-5" />
+                <motion.div
+                  whileHover={{ rotate: 90 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                  <X className="w-5 h-5" />
+                </motion.div>
               </motion.button>
             )}
           </motion.div>

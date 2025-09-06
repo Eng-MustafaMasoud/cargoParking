@@ -17,6 +17,7 @@ import GatesManagement from "./pages/GatesManagement.jsx";
 import ZonesManagement from "./pages/ZonesManagement.jsx";
 import Reports from "./pages/Reports.jsx";
 import Users from "./pages/Users.jsx";
+import Settings from "./pages/Settings.jsx";
 
 // Lazy load additional components
 const WebSocketStatus = lazy(() =>
@@ -135,25 +136,12 @@ const AppRoutes = () => {
 
           {/* Main Navigation Routes */}
           <Route
-            path="/gates"
+            path="/gate-screen"
             element={
               <ProtectedRoute>
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <GatesManagement />
-                  </Suspense>
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/zones"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <ZonesManagement />
+                    <GateScreen />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>
@@ -180,6 +168,19 @@ const AppRoutes = () => {
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
                     <Users />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Settings />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>

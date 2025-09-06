@@ -26,16 +26,10 @@ const Sidebar = ({ isOpen, onToggle }) => {
       current: location.pathname === "/",
     },
     {
-      name: "Gate Management",
-      href: "/gates",
+      name: "Gate Screen",
+      href: "/gate-screen",
       icon: Car,
-      current: location.pathname.startsWith("/gates"),
-    },
-    {
-      name: "Zone Management",
-      href: "/zones",
-      icon: MapPin,
-      current: location.pathname.startsWith("/zones"),
+      current: location.pathname === "/gate-screen",
     },
     {
       name: "Reports",

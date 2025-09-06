@@ -81,11 +81,14 @@ const ZonesManagement = () => {
     setShowDeleteModal(true);
   }, []);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    // Implementation would go here for create/update
-    console.log("Zone form submitted:", formData);
-  }, [formData]);
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      // Implementation would go here for create/update
+      console.log("Zone form submitted:", formData);
+    },
+    [formData]
+  );
 
   const handleGateToggle = useCallback((gateId) => {
     setFormData((prev) => ({
@@ -106,12 +109,15 @@ const ZonesManagement = () => {
     });
   }, [zones, searchTerm]);
 
-  const getGateNames = useCallback((gateIds) => {
-    return gateIds
-      .map((id) => gates.find((gate) => gate.id === id)?.name)
-      .filter(Boolean)
-      .join(", ");
-  }, [gates]);
+  const getGateNames = useCallback(
+    (gateIds) => {
+      return gateIds
+        .map((id) => gates.find((gate) => gate.id === id)?.name)
+        .filter(Boolean)
+        .join(", ");
+    },
+    [gates]
+  );
 
   if (zonesLoading) {
     return (

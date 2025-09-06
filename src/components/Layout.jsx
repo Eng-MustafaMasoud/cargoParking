@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import Sidebar from "./Sidebar.jsx";
 import Header from "./Header.jsx";
 
@@ -67,33 +67,27 @@ const Layout = ({ children }) => {
           </main>
         </div>
 
-        {/* Floating Toggle Button */}
-        <motion.button
-          onClick={handleSidebarToggle}
-          className="fixed top-20 left-4 z-50 p-2 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-          whileHover={{
-            scale: 1.05,
-            transition: { type: "spring", stiffness: 400, damping: 25 },
-          }}
-          whileTap={{
-            scale: 0.95,
-            transition: { type: "spring", stiffness: 400, damping: 25 },
-          }}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <motion.div
-            animate={{ rotate: sidebarOpen ? 90 : 0 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        {/* Mobile Toggle Button - Only show on mobile when sidebar is closed */}
+        {isMobile && !sidebarOpen && (
+          <motion.button
+            onClick={handleSidebarToggle}
+            className="fixed top-4 left-4 z-50 p-3 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            whileHover={{
+              scale: 1.05,
+              transition: { type: "spring", stiffness: 400, damping: 25 },
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: { type: "spring", stiffness: 400, damping: 25 },
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 }}
           >
-            {sidebarOpen ? (
-              <X className="w-4 h-4 text-gray-600" />
-            ) : (
-              <Menu className="w-4 h-4 text-gray-600" />
-            )}
-          </motion.div>
-        </motion.button>
+            <Menu className="w-5 h-5 text-gray-700" />
+          </motion.button>
+        )}
+
       </div>
     </div>
   );

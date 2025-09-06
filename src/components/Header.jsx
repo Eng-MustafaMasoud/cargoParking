@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu,
   Bell,
   User,
   LogOut,
@@ -86,30 +85,8 @@ const Header = ({ onSidebarToggle }) => {
   return (
     <header className="bg-white/90 backdrop-blur-xl shadow-sm border-b border-gray-200/50 sticky top-0 z-40">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        {/* Left side - Menu button and breadcrumbs */}
+        {/* Left side - Breadcrumbs */}
         <div className="flex items-center space-x-4">
-          {/* Sidebar toggle */}
-          <motion.button
-            onClick={onSidebarToggle}
-            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:shadow-sm border border-gray-200 bg-white/50"
-            whileHover={{ 
-              scale: 1.1,
-              rotate: 5,
-              transition: { type: "spring", stiffness: 400, damping: 25 }
-            }}
-            whileTap={{ 
-              scale: 0.95,
-              transition: { type: "spring", stiffness: 400, damping: 25 }
-            }}
-          >
-            <motion.div
-              whileHover={{ rotate: 90 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            >
-              <Menu className="w-5 h-5" />
-            </motion.div>
-          </motion.button>
-
           {/* Breadcrumbs */}
           <nav className="hidden sm:flex items-center space-x-1 text-sm">
             {breadcrumbs.map((breadcrumb, index) => {

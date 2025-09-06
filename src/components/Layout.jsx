@@ -70,18 +70,17 @@ const Layout = ({ children }) => {
         {/* Floating Toggle Button */}
         <motion.button
           onClick={handleSidebarToggle}
-          className="fixed top-4 left-4 z-50 p-3 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+          className="fixed top-20 left-4 z-50 p-2 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
           whileHover={{
-            scale: 1.1,
-            rotate: 5,
+            scale: 1.05,
             transition: { type: "spring", stiffness: 400, damping: 25 },
           }}
           whileTap={{
             scale: 0.95,
             transition: { type: "spring", stiffness: 400, damping: 25 },
           }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5 }}
         >
           <motion.div
@@ -89,9 +88,9 @@ const Layout = ({ children }) => {
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             {sidebarOpen ? (
-              <X className="w-5 h-5 text-gray-700" />
+              <X className="w-4 h-4 text-gray-600" />
             ) : (
-              <Menu className="w-5 h-5 text-gray-700" />
+              <Menu className="w-4 h-4 text-gray-600" />
             )}
           </motion.div>
         </motion.button>

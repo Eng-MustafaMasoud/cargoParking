@@ -46,57 +46,54 @@ const Dashboard = () => {
   });
 
   // Fetch gates data
-  const {
-    data: gates = [],
-    isLoading: gatesLoading,
-  } = useQuery({
+  const { data: gates = [], isLoading: gatesLoading } = useQuery({
     queryKey: ["master-gates"],
     queryFn: () => apiClient.request("/master/gates"),
   });
 
   // Fetch zones data
-  const {
-    data: zones = [],
-    isLoading: zonesLoading,
-  } = useQuery({
+  const { data: zones = [], isLoading: zonesLoading } = useQuery({
     queryKey: ["master-zones"],
     queryFn: () => apiClient.request("/master/zones"),
   });
 
   // Mock data for charts (in a real app, this would come from the API)
-  const chartData = useMemo(() => ({
-    occupancy: [
-      { label: "Zone A", value: 85 },
-      { label: "Zone B", value: 92 },
-      { label: "Zone C", value: 78 },
-      { label: "Zone D", value: 95 },
-      { label: "Zone E", value: 88 },
-      { label: "Zone F", value: 76 },
-    ],
-    dailyTraffic: [
-      { label: "Mon", value: 120 },
-      { label: "Tue", value: 135 },
-      { label: "Wed", value: 148 },
-      { label: "Thu", value: 142 },
-      { label: "Fri", value: 165 },
-      { label: "Sat", value: 98 },
-      { label: "Sun", value: 75 },
-    ],
-    revenue: [
-      { label: "Jan", value: 12500 },
-      { label: "Feb", value: 14200 },
-      { label: "Mar", value: 13800 },
-      { label: "Apr", value: 15600 },
-      { label: "May", value: 16200 },
-      { label: "Jun", value: 14800 },
-    ],
-    vehicleTypes: [
-      { label: "Cars", value: 65 },
-      { label: "Trucks", value: 20 },
-      { label: "Motorcycles", value: 10 },
-      { label: "Buses", value: 5 },
-    ],
-  }), []);
+  const chartData = useMemo(
+    () => ({
+      occupancy: [
+        { label: "Zone A", value: 85 },
+        { label: "Zone B", value: 92 },
+        { label: "Zone C", value: 78 },
+        { label: "Zone D", value: 95 },
+        { label: "Zone E", value: 88 },
+        { label: "Zone F", value: 76 },
+      ],
+      dailyTraffic: [
+        { label: "Mon", value: 120 },
+        { label: "Tue", value: 135 },
+        { label: "Wed", value: 148 },
+        { label: "Thu", value: 142 },
+        { label: "Fri", value: 165 },
+        { label: "Sat", value: 98 },
+        { label: "Sun", value: 75 },
+      ],
+      revenue: [
+        { label: "Jan", value: 12500 },
+        { label: "Feb", value: 14200 },
+        { label: "Mar", value: 13800 },
+        { label: "Apr", value: 15600 },
+        { label: "May", value: 16200 },
+        { label: "Jun", value: 14800 },
+      ],
+      vehicleTypes: [
+        { label: "Cars", value: 65 },
+        { label: "Trucks", value: 20 },
+        { label: "Motorcycles", value: 10 },
+        { label: "Buses", value: 5 },
+      ],
+    }),
+    []
+  );
 
   // Calculate statistics
   const stats = useMemo(() => {
@@ -107,8 +104,10 @@ const Dashboard = () => {
     const totalGates = parkingReport.totalGates || 0;
     const totalCategories = parkingReport.totalCategories || 0;
 
-    const occupiedZones = parkingReport.zones?.filter(zone => zone.occupied > 0).length || 0;
-    const occupancyRate = totalZones > 0 ? Math.round((occupiedZones / totalZones) * 100) : 0;
+    const occupiedZones =
+      parkingReport.zones?.filter((zone) => zone.occupied > 0).length || 0;
+    const occupancyRate =
+      totalZones > 0 ? Math.round((occupiedZones / totalZones) * 100) : 0;
 
     return {
       totalVehicles,
@@ -230,8 +229,13 @@ const Dashboard = () => {
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4">
             {chartData.occupancy.slice(0, 4).map((zone, index) => (
-              <div key={zone.label} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm font-medium text-gray-700">{zone.label}</span>
+              <div
+                key={zone.label}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+              >
+                <span className="text-sm font-medium text-gray-700">
+                  {zone.label}
+                </span>
                 <div className="flex items-center">
                   <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
                     <div
@@ -239,7 +243,9 @@ const Dashboard = () => {
                       style={{ width: `${zone.value}%` }}
                     />
                   </div>
-                  <span className="text-sm font-semibold text-gray-900">{zone.value}%</span>
+                  <span className="text-sm font-semibold text-gray-900">
+                    {zone.value}%
+                  </span>
                 </div>
               </div>
             ))}
@@ -258,7 +264,9 @@ const Dashboard = () => {
           </div>
           <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
             <span>Average: 127 vehicles/day</span>
-            <span className="text-success-600 font-semibold">+15% this week</span>
+            <span className="text-success-600 font-semibold">
+              +15% this week
+            </span>
           </div>
         </Card>
 
@@ -274,7 +282,9 @@ const Dashboard = () => {
           </div>
           <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
             <span>Total: $89,100</span>
-            <span className="text-accent-600 font-semibold">+22% this quarter</span>
+            <span className="text-accent-600 font-semibold">
+              +22% this quarter
+            </span>
           </div>
         </Card>
 
@@ -290,7 +300,10 @@ const Dashboard = () => {
           </div>
           <div className="mt-4 space-y-2">
             {chartData.vehicleTypes.map((type, index) => (
-              <div key={type.label} className="flex items-center justify-between">
+              <div
+                key={type.label}
+                className="flex items-center justify-between"
+              >
                 <div className="flex items-center">
                   <div
                     className="w-3 h-3 rounded-full mr-2"
@@ -298,7 +311,9 @@ const Dashboard = () => {
                   />
                   <span className="text-sm text-gray-700">{type.label}</span>
                 </div>
-                <span className="text-sm font-semibold text-gray-900">{type.value}%</span>
+                <span className="text-sm font-semibold text-gray-900">
+                  {type.value}%
+                </span>
               </div>
             ))}
           </div>
@@ -338,21 +353,27 @@ const Dashboard = () => {
             <div className="flex items-center p-3 bg-gray-50 rounded-lg">
               <div className="w-2 h-2 bg-success-500 rounded-full mr-3" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Vehicle checked in</p>
+                <p className="text-sm font-medium text-gray-900">
+                  Vehicle checked in
+                </p>
                 <p className="text-xs text-gray-500">Zone A - 2 minutes ago</p>
               </div>
             </div>
             <div className="flex items-center p-3 bg-gray-50 rounded-lg">
               <div className="w-2 h-2 bg-warning-500 rounded-full mr-3" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Zone capacity warning</p>
+                <p className="text-sm font-medium text-gray-900">
+                  Zone capacity warning
+                </p>
                 <p className="text-xs text-gray-500">Zone B - 5 minutes ago</p>
               </div>
             </div>
             <div className="flex items-center p-3 bg-gray-50 rounded-lg">
               <div className="w-2 h-2 bg-primary-500 rounded-full mr-3" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">New user registered</p>
+                <p className="text-sm font-medium text-gray-900">
+                  New user registered
+                </p>
                 <p className="text-xs text-gray-500">10 minutes ago</p>
               </div>
             </div>

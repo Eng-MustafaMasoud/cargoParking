@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const AnimatedChart = ({ 
-  data, 
-  type = "line", 
-  height = 300, 
+const AnimatedChart = ({
+  data,
+  type = "line",
+  height = 300,
   color = "primary",
-  showAnimation = true 
+  showAnimation = true,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const chartRef = useRef(null);
@@ -39,15 +39,17 @@ const AnimatedChart = ({
   const renderLineChart = () => {
     if (!data || data.length === 0) return null;
 
-    const maxValue = Math.max(...data.map(d => d.value));
-    const minValue = Math.min(...data.map(d => d.value));
+    const maxValue = Math.max(...data.map((d) => d.value));
+    const minValue = Math.min(...data.map((d) => d.value));
     const range = maxValue - minValue || 1;
 
-    const points = data.map((point, index) => {
-      const x = (index / (data.length - 1)) * 100;
-      const y = 100 - ((point.value - minValue) / range) * 100;
-      return `${x},${y}`;
-    }).join(" ");
+    const points = data
+      .map((point, index) => {
+        const x = (index / (data.length - 1)) * 100;
+        const y = 100 - ((point.value - minValue) / range) * 100;
+        return `${x},${y}`;
+      })
+      .join(" ");
 
     return (
       <div className="relative w-full h-full">
@@ -57,12 +59,18 @@ const AnimatedChart = ({
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id={`gradient-${color}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient
+              id={`gradient-${color}`}
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
               <stop offset="100%" stopColor="currentColor" stopOpacity="0.05" />
             </linearGradient>
           </defs>
-          
+
           {/* Area fill */}
           <motion.polygon
             points={`0,100 ${points} 100,100`}
@@ -71,7 +79,7 @@ const AnimatedChart = ({
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           />
-          
+
           {/* Line */}
           <motion.polyline
             points={points}
@@ -84,12 +92,12 @@ const AnimatedChart = ({
             animate={isVisible ? { pathLength: 1 } : { pathLength: 0 }}
             transition={{ duration: 1.5, delay: 0.5 }}
           />
-          
+
           {/* Data points */}
           {data.map((point, index) => {
             const x = (index / (data.length - 1)) * 100;
             const y = 100 - ((point.value - minValue) / range) * 100;
-            
+
             return (
               <motion.circle
                 key={index}
@@ -98,7 +106,11 @@ const AnimatedChart = ({
                 r="1.5"
                 fill="currentColor"
                 initial={{ scale: 0, opacity: 0 }}
-                animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                animate={
+                  isVisible
+                    ? { scale: 1, opacity: 1 }
+                    : { scale: 0, opacity: 0 }
+                }
                 transition={{ duration: 0.3, delay: 0.8 + index * 0.1 }}
               />
             );
@@ -111,14 +123,14 @@ const AnimatedChart = ({
   const renderBarChart = () => {
     if (!data || data.length === 0) return null;
 
-    const maxValue = Math.max(...data.map(d => d.value));
+    const maxValue = Math.max(...data.map((d) => d.value));
     const barWidth = 100 / data.length;
 
     return (
       <div className="flex items-end justify-between h-full px-2">
         {data.map((item, index) => {
           const height = (item.value / maxValue) * 100;
-          
+
           return (
             <motion.div
               key={index}
@@ -138,7 +150,7 @@ const AnimatedChart = ({
                   transition={{ duration: 1.5, delay: 0.5 + index * 0.1 }}
                 />
               </div>
-              
+
               {/* Tooltip */}
               <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <div className="bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
@@ -166,33 +178,37 @@ const AnimatedChart = ({
             const angle = (percentage / 100) * 360;
             const startAngle = currentAngle;
             const endAngle = currentAngle + angle;
-            
+
             const startAngleRad = (startAngle - 90) * (Math.PI / 180);
             const endAngleRad = (endAngle - 90) * (Math.PI / 180);
-            
+
             const largeArcFlag = angle > 180 ? 1 : 0;
-            
+
             const x1 = 50 + 40 * Math.cos(startAngleRad);
             const y1 = 50 + 40 * Math.sin(startAngleRad);
             const x2 = 50 + 40 * Math.cos(endAngleRad);
             const y2 = 50 + 40 * Math.sin(endAngleRad);
-            
+
             const pathData = [
               `M 50 50`,
               `L ${x1} ${y1}`,
               `A 40 40 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-              `Z`
+              `Z`,
             ].join(" ");
-            
+
             currentAngle += angle;
-            
+
             return (
               <motion.path
                 key={index}
                 d={pathData}
                 fill={`hsl(${index * 60}, 70%, 60%)`}
                 initial={{ scale: 0, rotate: -180 }}
-                animate={isVisible ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+                animate={
+                  isVisible
+                    ? { scale: 1, rotate: 0 }
+                    : { scale: 0, rotate: -180 }
+                }
                 transition={{ duration: 0.8, delay: index * 0.1 }}
               />
             );

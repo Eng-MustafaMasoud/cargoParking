@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "../services/apiClient";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -8,7 +6,7 @@ import {
   Plus,
   Edit,
   Trash2,
-  Users,
+  Users as UsersIcon,
   UserPlus,
   Shield,
   Search,
@@ -123,7 +121,7 @@ const Users = () => {
         <Card>
           <div className="flex items-center">
             <div className="p-3 bg-primary-100 rounded-xl">
-              <Users className="w-6 h-6 text-primary-600" />
+              <UsersIcon className="w-6 h-6 text-primary-600" />
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total Users</p>
@@ -228,7 +226,7 @@ const Users = () => {
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
                         <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <Users className="h-5 w-5 text-primary-600" />
+                          <UsersIcon className="h-5 w-5 text-primary-600" />
                         </div>
                       </div>
                       <div className="ml-4">
@@ -306,7 +304,7 @@ const Users = () => {
 
           {filteredUsers.length === 0 && (
             <div className="text-center py-12">
-              <Users className="mx-auto h-12 w-12 text-gray-400" />
+              <UsersIcon className="mx-auto h-12 w-12 text-gray-400" />
               <h3 className="mt-2 text-sm font-medium text-gray-900">
                 No users found
               </h3>

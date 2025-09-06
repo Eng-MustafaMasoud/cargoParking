@@ -112,13 +112,17 @@ const AnimatedStatCard = ({
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: delay + 0.2 }}
           >
-            {typeof displayValue === "number" ? displayValue.toLocaleString() : displayValue}
+            {typeof displayValue === "number"
+              ? displayValue.toLocaleString()
+              : displayValue}
           </motion.div>
           {change && (
             <motion.div
               className={`text-sm font-medium mt-2 flex items-center`}
               initial={{ opacity: 0, x: -10 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+              animate={
+                isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }
+              }
               transition={{ duration: 0.5, delay: delay + 0.4 }}
             >
               <span className={changeColorClasses[changeType]}>
@@ -129,17 +133,19 @@ const AnimatedStatCard = ({
             </motion.div>
           )}
         </div>
-        
+
         <motion.div
           className={`${colorClasses[color].iconBg} p-3 rounded-xl group-hover:scale-110 transition-transform duration-300`}
           initial={{ scale: 0, rotate: -180 }}
-          animate={isVisible ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+          animate={
+            isVisible ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }
+          }
           transition={{ duration: 0.6, delay: delay + 0.3 }}
         >
           <Icon className={`w-6 h-6 ${colorClasses[color].icon}`} />
         </motion.div>
       </div>
-      
+
       {/* Animated background pattern */}
       <motion.div
         className="absolute inset-0 opacity-5 pointer-events-none"

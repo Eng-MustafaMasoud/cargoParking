@@ -13,6 +13,7 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import PerformanceMonitor from "./components/PerformanceMonitor.jsx";
 import GateScreen from "./pages/GateScreen.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import GatesManagement from "./pages/GatesManagement.jsx";
 
 // Lazy load additional components
 const WebSocketStatus = lazy(() =>
@@ -110,6 +111,19 @@ const AppRoutes = () => {
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
                     <AdminDashboard />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/gates"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <GatesManagement />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>

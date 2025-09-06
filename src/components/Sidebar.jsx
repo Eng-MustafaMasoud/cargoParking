@@ -62,7 +62,25 @@ const Sidebar = ({ isOpen, onToggle }) => {
       name: "Admin Dashboard",
       href: "/admin",
       icon: Shield,
-      current: location.pathname.startsWith("/admin"),
+      current: location.pathname === "/admin",
+    },
+    {
+      name: "Gates Management",
+      href: "/admin/gates",
+      icon: Building2,
+      current: location.pathname === "/admin/gates",
+    },
+    {
+      name: "Zones Management",
+      href: "/admin/zones",
+      icon: MapPin,
+      current: location.pathname === "/admin/zones",
+    },
+    {
+      name: "Categories Management",
+      href: "/admin/categories",
+      icon: Settings,
+      current: location.pathname === "/admin/categories",
     },
   ];
 

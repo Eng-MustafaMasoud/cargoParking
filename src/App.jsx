@@ -12,6 +12,7 @@ import LoadingSpinner from "./components/LoadingSpinner.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import PerformanceMonitor from "./components/PerformanceMonitor.jsx";
 import GateScreen from "./pages/GateScreen.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import GatesManagement from "./pages/GatesManagement.jsx";
 import ZonesManagement from "./pages/ZonesManagement.jsx";
@@ -101,7 +102,7 @@ const AppRoutes = () => {
               <ProtectedRoute>
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
-                    <GateScreen />
+                    <Dashboard />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>

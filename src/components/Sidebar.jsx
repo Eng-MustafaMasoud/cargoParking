@@ -16,7 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const Sidebar = ({ isOpen, onToggle }) => {
+const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
   const location = useLocation();
 
   const navigation = [
@@ -161,13 +161,13 @@ const Sidebar = ({ isOpen, onToggle }) => {
     <>
       {/* Mobile backdrop */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && isMobile && (
           <motion.div
             variants={backdropVariants}
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
             onClick={onToggle}
           />
         )}
@@ -178,10 +178,10 @@ const Sidebar = ({ isOpen, onToggle }) => {
         variants={sidebarVariants}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
-        className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 lg:translate-x-0 lg:static ${
-          isOpen
-            ? "fixed inset-y-0 left-0 z-50"
-            : "fixed inset-y-0 left-0 z-50 lg:translate-x-0 lg:static"
+        className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 ${
+          isMobile
+            ? `fixed inset-y-0 left-0 z-50 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+            : `static ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`
         }`}
       >
         <div className="flex flex-col h-full">
@@ -209,15 +209,17 @@ const Sidebar = ({ isOpen, onToggle }) => {
                 </p>
               </div>
             </motion.div>
-            <motion.button
-              onClick={onToggle}
-              className="lg:hidden text-white hover:text-primary-200 hover:bg-white/10 p-2 rounded-lg transition-all duration-200"
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            >
-              <X className="w-5 h-5" />
-            </motion.button>
+            {isMobile && (
+              <motion.button
+                onClick={onToggle}
+                className="text-white hover:text-primary-200 hover:bg-white/10 p-2 rounded-lg transition-all duration-200"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <X className="w-5 h-5" />
+              </motion.button>
+            )}
           </motion.div>
 
           {/* Navigation */}

@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar.jsx";
 import Header from "./Header.jsx";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if screen is mobile
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Auto-close sidebar on mobile when screen size changes
+  useEffect(() => {
+    if (!isMobile && sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  }, [isMobile, sidebarOpen]);
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -27,10 +46,16 @@ const Layout = ({ children }) => {
 
       <div className="flex min-h-screen">
         {/* Sidebar */}
-        <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />
+        <Sidebar 
+          isOpen={sidebarOpen} 
+          onToggle={handleSidebarToggle} 
+          isMobile={isMobile}
+        />
 
         {/* Main content area */}
-        <div className="flex-1 flex flex-col min-h-screen">
+        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
+          !isMobile && sidebarOpen ? 'lg:ml-64' : ''
+        }`}>
           {/* Header */}
           <Header onSidebarToggle={handleSidebarToggle} />
 

@@ -14,6 +14,9 @@ import PerformanceMonitor from "./components/PerformanceMonitor.jsx";
 import GateScreen from "./pages/GateScreen.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import GatesManagement from "./pages/GatesManagement.jsx";
+import ZonesManagement from "./pages/ZonesManagement.jsx";
+import Reports from "./pages/Reports.jsx";
+import Users from "./pages/Users.jsx";
 
 // Lazy load additional components
 const WebSocketStatus = lazy(() =>
@@ -124,6 +127,73 @@ const AppRoutes = () => {
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
                     <GatesManagement />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Main Navigation Routes */}
+          <Route
+            path="/gates"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <GatesManagement />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/zones"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <ZonesManagement />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Reports />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Users />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/zones"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <ZonesManagement />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>

@@ -97,7 +97,9 @@ const Sidebar = ({ isOpen, onToggle }) => {
       {/* Sidebar */}
       <div
         className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static ${
-          isOpen ? "translate-x-0 fixed inset-y-0 left-0 z-50" : "-translate-x-full fixed inset-y-0 left-0 z-50 lg:translate-x-0 lg:static"
+          isOpen
+            ? "translate-x-0 fixed inset-y-0 left-0 z-50"
+            : "-translate-x-full fixed inset-y-0 left-0 z-50 lg:translate-x-0 lg:static"
         }`}
       >
         <div className="flex flex-col h-full">

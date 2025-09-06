@@ -81,40 +81,13 @@ const AdminDashboard = () => {
   };
 
   const queryClient = useQueryClient();
-  const { addListener, isConnected } = useWebSocket();
+  const { isConnected, error } = useWebSocket("admin");
 
   // WebSocket connection for admin updates
   useEffect(() => {
-    console.log("AdminDashboard - Setting up WebSocket listeners");
-
-    // Set up event listeners
-    const handleConnected = () => {
-      console.log("AdminDashboard - WebSocket connected");
-      setWsConnected(true);
-    };
-
-    const handleDisconnected = () => {
-      console.log("AdminDashboard - WebSocket disconnected");
-      setWsConnected(false);
-    };
-
-    const handleAdminUpdate = (update) => {
-      console.log("AdminDashboard - Admin update received:", update);
-      setAdminLog((prev) => [update, ...prev.slice(0, 9)]); // Keep last 10 updates
-      // Invalidate relevant queries
-      queryClient.invalidateQueries(["parking-report"]);
-      queryClient.invalidateQueries(["categories"]);
-      queryClient.invalidateQueries(["subscriptions"]);
-    };
-
-    // Add event listeners using the hook
-    addListener("connected", handleConnected);
-    addListener("disconnected", handleDisconnected);
-    addListener("admin-update", handleAdminUpdate);
-
-    // Update connection status
+    console.log("AdminDashboard - WebSocket status:", { isConnected, error });
     setWsConnected(isConnected);
-  }, [queryClient, addListener, isConnected]);
+  }, [isConnected, error]);
 
   // Fetch parking state report
   const { data: parkingReport = [], isLoading: reportLoading } = useQuery({

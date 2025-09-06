@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import GatesManagement from "./pages/GatesManagement.jsx";
 import ZonesManagement from "./pages/ZonesManagement.jsx";
+import CategoriesManagement from "./pages/CategoriesManagement.jsx";
 import Reports from "./pages/Reports.jsx";
 import Users from "./pages/Users.jsx";
 import Settings from "./pages/Settings.jsx";
@@ -196,6 +197,19 @@ const AppRoutes = () => {
                 <Layout>
                   <Suspense fallback={<LoadingSpinner />}>
                     <ZonesManagement />
+                  </Suspense>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/categories"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <Layout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CategoriesManagement />
                   </Suspense>
                 </Layout>
               </ProtectedRoute>

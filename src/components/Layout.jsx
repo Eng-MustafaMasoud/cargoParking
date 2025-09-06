@@ -71,7 +71,7 @@ const Layout = ({ children }) => {
         {isMobile && !sidebarOpen && (
           <motion.button
             onClick={handleSidebarToggle}
-            className="fixed top-6 left-6 z-50 w-14 h-14 bg-gradient-to-br from-white via-gray-50 to-gray-100 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center group overflow-hidden"
+            className="fixed top-20 left-6 z-50 w-14 h-14 bg-gradient-to-br from-white via-gray-50 to-gray-100 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 flex items-center justify-center group overflow-hidden"
             whileHover={{
               scale: 1.08,
               y: -3,
@@ -133,16 +133,16 @@ const Layout = ({ children }) => {
 
             {/* Modern Tooltip */}
             <motion.div
-              initial={{ opacity: 0, x: -15, y: 0 }}
+              initial={{ opacity: 0, x: 15, y: 0 }}
               whileHover={{ opacity: 1, x: 0, y: 0 }}
-              className="absolute right-full mr-4 px-3 py-2 bg-gray-900/95 backdrop-blur-sm text-white text-sm font-medium rounded-xl whitespace-nowrap pointer-events-none shadow-xl border border-white/10"
+              className="absolute left-full ml-4 px-3 py-2 bg-gray-900/95 backdrop-blur-sm text-white text-sm font-medium rounded-xl whitespace-nowrap pointer-events-none shadow-xl border border-white/10"
             >
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
                 <span>Open Sidebar</span>
               </div>
               {/* Tooltip Arrow */}
-              <div className="absolute left-full top-1/2 -translate-y-1/2 w-0 h-0 border-l-8 border-l-gray-900/95 border-t-4 border-t-transparent border-b-4 border-b-transparent" />
+              <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-r-8 border-r-gray-900/95 border-t-4 border-t-transparent border-b-4 border-b-transparent" />
             </motion.div>
 
             {/* Floating Particles Effect */}

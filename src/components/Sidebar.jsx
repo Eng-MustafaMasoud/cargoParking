@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   Car,
@@ -78,127 +79,291 @@ const Sidebar = ({ isOpen, onToggle }) => {
     },
   ];
 
+  // Animation variants
+  const sidebarVariants = {
+    open: {
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+    closed: {
+      x: "-100%",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        staggerChildren: 0.05,
+        staggerDirection: -1,
+      },
+    },
+  };
+
+  const backdropVariants = {
+    open: {
+      opacity: 1,
+      transition: { duration: 0.3 },
+    },
+    closed: {
+      opacity: 0,
+      transition: { duration: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+    closed: {
+      opacity: 0,
+      x: -20,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+  };
+
+  const headerVariants = {
+    open: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        delay: 0.1,
+      },
+    },
+    closed: {
+      scale: 0.95,
+      opacity: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden animate-fade-in"
-          onClick={onToggle}
-        />
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            variants={backdropVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+            onClick={onToggle}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Sidebar */}
-      <div
-        className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static ${
+      <motion.div
+        variants={sidebarVariants}
+        initial="closed"
+        animate={isOpen ? "open" : "closed"}
+        className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 lg:translate-x-0 lg:static ${
           isOpen
-            ? "translate-x-0 fixed inset-y-0 left-0 z-50"
-            : "-translate-x-full fixed inset-y-0 left-0 z-50 lg:translate-x-0 lg:static"
+            ? "fixed inset-y-0 left-0 z-50"
+            : "fixed inset-y-0 left-0 z-50 lg:translate-x-0 lg:static"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-primary-500 to-primary-600 shadow-lg">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl shadow-glow">
+          <motion.div
+            variants={headerVariants}
+            className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-primary-500 to-primary-600 shadow-lg"
+          >
+            <motion.div 
+              className="flex items-center space-x-3"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              <motion.div 
+                className="flex items-center justify-center w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl shadow-glow"
+                whileHover={{ rotate: 5, scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
                 <Building2 className="w-5 h-5 text-white" />
-              </div>
+              </motion.div>
               <div className="text-white">
                 <h1 className="text-lg font-bold">Dallas Cargo</h1>
                 <p className="text-xs text-primary-100 font-medium">
                   Parking Management
                 </p>
               </div>
-            </div>
-            <button
+            </motion.div>
+            <motion.button
               onClick={onToggle}
               className="lg:hidden text-white hover:text-primary-200 hover:bg-white/10 p-2 rounded-lg transition-all duration-200"
+              whileHover={{ scale: 1.1, rotate: 90 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <X className="w-5 h-5" />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-            <div className="space-y-1">
+            <motion.div className="space-y-1">
               {navigation.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <Link
+                  <motion.div
                     key={item.name}
-                    to={item.href}
-                    className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-                      item.current
-                        ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm"
-                    }`}
-                    style={{ animationDelay: `${index * 0.05}s` }}
+                    variants={itemVariants}
+                    whileHover={{ 
+                      scale: 1.02,
+                      x: 4,
+                      transition: { type: "spring", stiffness: 400, damping: 25 }
+                    }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <Icon
-                      className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-200 ${
+                    <Link
+                      to={item.href}
+                      className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
                         item.current
-                          ? "text-white"
-                          : "text-gray-400 group-hover:text-gray-600"
+                          ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25"
+                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm"
                       }`}
-                    />
-                    <span className="flex-1">{item.name}</span>
-                    {item.current && (
-                      <ChevronRight className="h-4 w-4 text-white" />
-                    )}
-                  </Link>
+                    >
+                      <motion.div
+                        className="mr-3 h-5 w-5 flex-shrink-0"
+                        whileHover={{ rotate: 5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      >
+                        <Icon
+                          className={`h-5 w-5 transition-colors duration-200 ${
+                            item.current
+                              ? "text-white"
+                              : "text-gray-400 group-hover:text-gray-600"
+                          }`}
+                        />
+                      </motion.div>
+                      <span className="flex-1">{item.name}</span>
+                      <AnimatePresence>
+                        {item.current && (
+                          <motion.div
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -10 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                          >
+                            <ChevronRight className="h-4 w-4 text-white" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </Link>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
 
             {/* Admin Section */}
-            <div className="pt-6 mt-6 border-t border-gray-200/50">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+            <motion.div 
+              className="pt-6 mt-6 border-t border-gray-200/50"
+              variants={itemVariants}
+            >
+              <motion.p 
+                className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
                 Administration
-              </p>
+              </motion.p>
               <div className="space-y-1">
                 {adminNavigation.map((item, index) => {
                   const Icon = item.icon;
                   return (
-                    <Link
+                    <motion.div
                       key={item.name}
-                      to={item.href}
-                      className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-                        item.current
-                          ? "bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/25"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm"
-                      }`}
-                      style={{
-                        animationDelay: `${
-                          (navigation.length + index) * 0.05
-                        }s`,
+                      variants={itemVariants}
+                      whileHover={{ 
+                        scale: 1.02,
+                        x: 4,
+                        transition: { type: "spring", stiffness: 400, damping: 25 }
                       }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <Icon
-                        className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors duration-200 ${
+                      <Link
+                        to={item.href}
+                        className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
                           item.current
-                            ? "text-white"
-                            : "text-gray-400 group-hover:text-gray-600"
+                            ? "bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/25"
+                            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm"
                         }`}
-                      />
-                      <span className="flex-1">{item.name}</span>
-                      {item.current && (
-                        <ChevronRight className="h-4 w-4 text-white" />
-                      )}
-                    </Link>
+                      >
+                        <motion.div
+                          className="mr-3 h-5 w-5 flex-shrink-0"
+                          whileHover={{ rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        >
+                          <Icon
+                            className={`h-5 w-5 transition-colors duration-200 ${
+                              item.current
+                                ? "text-white"
+                                : "text-gray-400 group-hover:text-gray-600"
+                            }`}
+                          />
+                        </motion.div>
+                        <span className="flex-1">{item.name}</span>
+                        <AnimatePresence>
+                          {item.current && (
+                            <motion.div
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            >
+                              <ChevronRight className="h-4 w-4 text-white" />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </Link>
+                    </motion.div>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
           </nav>
 
           {/* Footer */}
-          <div className="px-4 py-4 border-t border-gray-200/50 bg-gradient-to-r from-gray-50/50 to-transparent">
-            <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0">
+          <motion.div 
+            className="px-4 py-4 border-t border-gray-200/50 bg-gradient-to-r from-gray-50/50 to-transparent"
+            variants={itemVariants}
+          >
+            <motion.div 
+              className="flex items-center space-x-3"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            >
+              <motion.div 
+                className="flex-shrink-0"
+                whileHover={{ rotate: 5, scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
                 <div className="w-10 h-10 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl flex items-center justify-center shadow-sm">
                   <Building2 className="w-5 h-5 text-gray-600" />
                 </div>
-              </div>
+              </motion.div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-gray-900">
                   Dallas Cargo
@@ -207,8 +372,8 @@ const Sidebar = ({ isOpen, onToggle }) => {
                   Parking Management
                 </p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </>

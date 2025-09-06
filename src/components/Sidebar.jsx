@@ -83,6 +83,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
   const sidebarVariants = {
     open: {
       x: 0,
+      opacity: 1,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -93,6 +94,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
     },
     closed: {
       x: "-100%",
+      opacity: 0,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -179,9 +181,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         initial="closed"
         animate={isOpen ? "open" : "closed"}
         className={`w-64 bg-white/95 backdrop-blur-xl shadow-2xl border-r border-gray-200/50 flex-shrink-0 ${
-          isMobile
-            ? "fixed inset-y-0 left-0 z-50"
-            : "static"
+          isMobile 
+            ? "fixed inset-y-0 left-0 z-50" 
+            : isOpen 
+              ? "fixed inset-y-0 left-0 z-40" 
+              : "hidden"
         }`}
       >
         <div className="flex flex-col h-full">
@@ -190,12 +194,12 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
             variants={headerVariants}
             className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-primary-500 to-primary-600 shadow-lg"
           >
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-3"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
-              <motion.div 
+              <motion.div
                 className="flex items-center justify-center w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl shadow-glow"
                 whileHover={{ rotate: 5, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -236,10 +240,14 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                   <motion.div
                     key={item.name}
                     variants={itemVariants}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.02,
                       x: 4,
-                      transition: { type: "spring", stiffness: 400, damping: 25 }
+                      transition: {
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 25,
+                      },
                     }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -254,7 +262,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                       <motion.div
                         className="mr-3 h-5 w-5 flex-shrink-0"
                         whileHover={{ rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 25,
+                        }}
                       >
                         <Icon
                           className={`h-5 w-5 transition-colors duration-200 ${
@@ -271,7 +283,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 25,
+                            }}
                           >
                             <ChevronRight className="h-4 w-4 text-white" />
                           </motion.div>
@@ -284,11 +300,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
             </motion.div>
 
             {/* Admin Section */}
-            <motion.div 
+            <motion.div
               className="pt-6 mt-6 border-t border-gray-200/50"
               variants={itemVariants}
             >
-              <motion.p 
+              <motion.p
                 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -303,10 +319,14 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                     <motion.div
                       key={item.name}
                       variants={itemVariants}
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.02,
                         x: 4,
-                        transition: { type: "spring", stiffness: 400, damping: 25 }
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 25,
+                        },
                       }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -321,7 +341,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                         <motion.div
                           className="mr-3 h-5 w-5 flex-shrink-0"
                           whileHover={{ rotate: 5 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 25,
+                          }}
                         >
                           <Icon
                             className={`h-5 w-5 transition-colors duration-200 ${
@@ -338,7 +362,11 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               exit={{ opacity: 0, x: -10 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 25,
+                              }}
                             >
                               <ChevronRight className="h-4 w-4 text-white" />
                             </motion.div>
@@ -353,16 +381,16 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
           </nav>
 
           {/* Footer */}
-          <motion.div 
+          <motion.div
             className="px-4 py-4 border-t border-gray-200/50 bg-gradient-to-r from-gray-50/50 to-transparent"
             variants={itemVariants}
           >
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-3"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
-              <motion.div 
+              <motion.div
                 className="flex-shrink-0"
                 whileHover={{ rotate: 5, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}

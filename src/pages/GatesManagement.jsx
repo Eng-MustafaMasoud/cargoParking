@@ -11,20 +11,15 @@ import {
   MapPin,
   Building2,
   Users,
-  Settings,
   Search,
-  Filter,
   RefreshCw,
   AlertCircle,
   CheckCircle,
   Clock,
-  Eye,
-  EyeOff,
 } from "lucide-react";
 
 const GatesManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -37,23 +32,23 @@ const GatesManagement = () => {
 
   const queryClient = useQueryClient();
 
-  // Fetch gates
+  // Fetch gates (admin endpoint)
   const {
     data: gates = [],
     isLoading: gatesLoading,
     error: gatesError,
     refetch: refetchGates,
   } = useQuery({
-    queryKey: ["gates"],
+    queryKey: ["admin-gates"],
     queryFn: () => apiClient.request("/admin/gates"),
   });
 
-  // Fetch zones for dropdown
+  // Fetch zones for dropdown (public endpoint)
   const {
     data: zones = [],
     isLoading: zonesLoading,
   } = useQuery({
-    queryKey: ["zones"],
+    queryKey: ["master-zones"],
     queryFn: () => apiClient.request("/master/zones"),
   });
 
@@ -65,7 +60,7 @@ const GatesManagement = () => {
         body: JSON.stringify(gateData),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["gates"]);
+      queryClient.invalidateQueries(["admin-gates"]);
       setShowCreateModal(false);
       resetForm();
     },
@@ -79,7 +74,7 @@ const GatesManagement = () => {
         body: JSON.stringify(gateData),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["gates"]);
+      queryClient.invalidateQueries(["admin-gates"]);
       setShowEditModal(false);
       resetForm();
     },
@@ -92,7 +87,7 @@ const GatesManagement = () => {
         method: "DELETE",
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["gates"]);
+      queryClient.invalidateQueries(["admin-gates"]);
       setShowDeleteModal(false);
       setSelectedGate(null);
     },
@@ -144,7 +139,7 @@ const GatesManagement = () => {
     }));
   };
 
-  // Filter gates based on search and status
+  // Filter gates based on search
   const filteredGates = gates.filter((gate) => {
     const matchesSearch = gate.name
       .toLowerCase()
@@ -154,12 +149,6 @@ const GatesManagement = () => {
     return matchesSearch;
   });
 
-  const getZoneNames = (zoneIds) => {
-    return zoneIds
-      .map((id) => zones.find((zone) => zone.id === id)?.name)
-      .filter(Boolean)
-      .join(", ");
-  };
 
   if (gatesLoading) {
     return (

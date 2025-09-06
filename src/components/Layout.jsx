@@ -10,7 +10,6 @@ const Layout = ({ children }) => {
   useEffect(() => {
     const checkScreenSize = () => {
       const mobile = window.innerWidth < 1024; // lg breakpoint
-      console.log('Screen size check:', { width: window.innerWidth, mobile, sidebarOpen });
       setIsMobile(mobile);
       
       // On desktop, start with sidebar closed
@@ -23,11 +22,6 @@ const Layout = ({ children }) => {
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
-
-  // Debug sidebar state
-  useEffect(() => {
-    console.log('Sidebar state changed:', { sidebarOpen, isMobile });
-  }, [sidebarOpen, isMobile]);
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);

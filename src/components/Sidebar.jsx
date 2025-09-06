@@ -18,9 +18,6 @@ import {
 
 const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
   const location = useLocation();
-  
-  // Debug props
-  console.log('Sidebar props:', { isOpen, isMobile, pathname: location.pathname });
 
   const navigation = [
     {

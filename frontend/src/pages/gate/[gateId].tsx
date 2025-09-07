@@ -27,8 +27,8 @@ const GateScreen = () => {
   useEffect(() => {
     wsService.connect('ws://localhost:3000/ws')
     
-    const unsubscribe = wsService.subscribe('zone-update', (data) => {
-      queryClient.invalidateQueries(['zones', gateId])
+    const unsubscribe = wsService.subscribe('zone-update', () => {
+      queryClient.invalidateQueries({ queryKey: ['zones', gateId] })
     })
 
     setWsConnected(wsService.isConnected)
@@ -55,7 +55,7 @@ const GateScreen = () => {
     mutationFn: (data: any) => apiClient.checkinTicket(data),
     onSuccess: (ticket) => {
       setTicketModal(ticket)
-      queryClient.invalidateQueries(['zones', gateId])
+      queryClient.invalidateQueries({ queryKey: ['zones', gateId] })
     },
   })
 

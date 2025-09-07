@@ -38,7 +38,7 @@ const AdminDashboard = () => {
   const createUserMutation = useMutation({
     mutationFn: (userData: any) => apiClient.createUser(userData),
     onSuccess: () => {
-      queryClient.invalidateQueries(['users'])
+      queryClient.invalidateQueries({ queryKey: ['users'] })
       setNewUser({ username: '', password: '', role: 'employee' })
     },
   })
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
     mutationFn: ({ zoneId, isOpen }: { zoneId: string; isOpen: boolean }) => 
       apiClient.updateZoneStatus(zoneId, isOpen),
     onSuccess: () => {
-      queryClient.invalidateQueries(['parking-report'])
+      queryClient.invalidateQueries({ queryKey: ['parking-report'] })
     },
   })
 
@@ -229,7 +229,7 @@ const AdminDashboard = () => {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Parking Zones</h3>
                 <button
-                  onClick={() => queryClient.invalidateQueries(['parking-report'])}
+                  onClick={() => queryClient.invalidateQueries({ queryKey: ['parking-report'] })}
                   className="btn-secondary"
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />

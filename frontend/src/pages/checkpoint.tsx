@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { apiClient } from '../services/api'
 import { useAuth } from '../store/authStore'
-import { Search, Car, Clock, DollarSign, AlertCircle } from 'lucide-react'
+import { Search, Clock, DollarSign, AlertCircle } from 'lucide-react'
 
 const CheckpointScreen = () => {
   const [ticketId, setTicketId] = useState('')

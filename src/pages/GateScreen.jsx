@@ -35,6 +35,7 @@ const GateScreen = () => {
   const [ticketData, setTicketData] = useState(null);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedGateId, setSelectedGateId] = useState(gateId);
+  const [adminLog, setAdminLog] = useState([]);
 
   // Update current time every second
   useEffect(() => {
@@ -194,14 +195,14 @@ const GateScreen = () => {
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <div className="bg-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className=" mx-auto px-4 sm:px-6 lg:px-8">
             <div className="py-6">
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-600 rounded-full mb-3">
                   <Car className="w-6 h-6 text-white" />
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Dallas Cargo Gates
+                  Cargo Gates
                 </h1>
                 <p className="text-gray-600 mt-1">
                   Choose a gate to view zone availability
@@ -215,7 +216,7 @@ const GateScreen = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card title="Available Gates">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {gates.map((gate) => (
@@ -276,7 +277,7 @@ const GateScreen = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
@@ -308,7 +309,7 @@ const GateScreen = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tabs */}
         <div className="mb-6">
           <div className="border-b border-gray-200">

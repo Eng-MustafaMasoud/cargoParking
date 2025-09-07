@@ -53,8 +53,8 @@ const Layout = ({ children }) => {
           }`}
         >
           {/* Header */}
-          <Header 
-            onSidebarToggle={handleSidebarToggle} 
+          <Header
+            onSidebarToggle={handleSidebarToggle}
             sidebarOpen={sidebarOpen}
             isMobile={isMobile}
           />
@@ -62,13 +62,12 @@ const Layout = ({ children }) => {
           {/* Page content */}
           <main className="flex-1 relative z-10">
             <div className="py-6">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className=" mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="animate-fade-in-up">{children}</div>
               </div>
             </div>
           </main>
         </div>
-
       </div>
     </div>
   );

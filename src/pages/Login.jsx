@@ -58,7 +58,7 @@ const LoginPage = () => {
             <Car className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent mb-2">
-            Dallas Cargo
+            Cargo
           </h1>
           <p className="text-gray-600 text-lg font-medium">
             Parking Management System

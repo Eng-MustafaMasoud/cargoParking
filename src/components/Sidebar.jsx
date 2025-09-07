@@ -175,7 +175,6 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
         )}
       </AnimatePresence>
 
-
       {/* Sidebar */}
       <motion.div
         variants={sidebarVariants}
@@ -202,7 +201,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                 <Building2 className="w-5 h-5 text-white" />
               </motion.div>
               <div className="text-white">
-                <h1 className="text-lg font-bold">Dallas Cargo</h1>
+                <h1 className="text-lg font-bold"> Cargo</h1>
                 <p className="text-xs text-primary-100 font-medium">
                   Parking Management
                 </p>
@@ -395,9 +394,7 @@ const Sidebar = ({ isOpen, onToggle, isMobile = false }) => {
                 </div>
               </motion.div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900">
-                  Dallas Cargo
-                </p>
+                <p className="text-sm font-semibold text-gray-900">Cargo</p>
                 <p className="text-xs text-gray-500 font-medium">
                   Parking Management
                 </p>

@@ -39,7 +39,7 @@ export default {
           200: "#fef08a",
           300: "#fde047",
           400: "#facc15",
-          500: "#eab308", // Dallas gold
+          500: "#eab308", //  gold
           600: "#ca8a04",
           700: "#a16207",
           800: "#854d0e",

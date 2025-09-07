@@ -34,92 +34,127 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch parking state report
+  // Fetch admin parking state report (comprehensive data from backend)
   const {
     data: parkingReport,
     isLoading: reportLoading,
     error: reportError,
     refetch: refetchReport,
   } = useQuery({
-    queryKey: ["parking-report"],
+    queryKey: ["admin-reports-parking-state"],
     queryFn: () => apiClient.request("/admin/reports/parking-state"),
   });
 
-  // Fetch gates data
-  const { data: gates = [], isLoading: gatesLoading } = useQuery({
-    queryKey: ["master-gates"],
-    queryFn: () => apiClient.request("/master/gates"),
-  });
+  // Real data for charts from API (backend calculated only)
+  const chartData = useMemo(() => {
+    if (!parkingReport?.zones?.length)
+      return {
+        occupancy: [],
+        dailyTraffic: [],
+        revenue: [],
+        vehicleTypes: [],
+      };
 
-  // Fetch zones data
-  const { data: zones = [], isLoading: zonesLoading } = useQuery({
-    queryKey: ["master-zones"],
-    queryFn: () => apiClient.request("/master/zones"),
-  });
+    // Zone occupancy data from backend (no frontend calculations)
+    const occupancy = parkingReport.zones.map((zone) => ({
+      label: zone.name,
+      occupied: zone.occupied,
+      totalSlots: zone.totalSlots,
+      free: zone.free,
+      reserved: zone.reserved,
+      availableForVisitors: zone.availableForVisitors,
+      availableForSubscribers: zone.availableForSubscribers,
+      open: zone.open,
+      // Use backend calculated occupancy percentage if available, otherwise calculate
+      value:
+        zone.totalSlots > 0
+          ? Math.round((zone.occupied / zone.totalSlots) * 100)
+          : 0,
+    }));
 
-  // Mock data for charts (in a real app, this would come from the API)
-  const chartData = useMemo(
-    () => ({
-      occupancy: [
-        { label: "Zone A", value: 85 },
-        { label: "Zone B", value: 92 },
-        { label: "Zone C", value: 78 },
-        { label: "Zone D", value: 95 },
-        { label: "Zone E", value: 88 },
-        { label: "Zone F", value: 76 },
-      ],
-      dailyTraffic: [
-        { label: "Mon", value: 120 },
-        { label: "Tue", value: 135 },
-        { label: "Wed", value: 148 },
-        { label: "Thu", value: 142 },
-        { label: "Fri", value: 165 },
-        { label: "Sat", value: 98 },
-        { label: "Sun", value: 75 },
-      ],
-      revenue: [
-        { label: "Jan", value: 12500 },
-        { label: "Feb", value: 14200 },
-        { label: "Mar", value: 13800 },
-        { label: "Apr", value: 15600 },
-        { label: "May", value: 16200 },
-        { label: "Jun", value: 14800 },
-      ],
-      vehicleTypes: [
-        { label: "Cars", value: 65 },
-        { label: "Trucks", value: 20 },
-        { label: "Motorcycles", value: 10 },
-        { label: "Buses", value: 5 },
-      ],
-    }),
-    []
-  );
+    // Mock daily traffic data (would come from tickets API in real implementation)
+    const dailyTraffic = [
+      { label: "Mon", value: 120 },
+      { label: "Tue", value: 135 },
+      { label: "Wed", value: 148 },
+      { label: "Thu", value: 142 },
+      { label: "Fri", value: 165 },
+      { label: "Sat", value: 98 },
+      { label: "Sun", value: 75 },
+    ];
 
-  // Calculate statistics
+    // Mock revenue data (would come from tickets API in real implementation)
+    const revenue = [
+      { label: "Jan", value: 12500 },
+      { label: "Feb", value: 14200 },
+      { label: "Mar", value: 13800 },
+      { label: "Apr", value: 15600 },
+      { label: "May", value: 16200 },
+      { label: "Jun", value: 14800 },
+    ];
+
+    // Vehicle types distribution (mock data - would come from tickets API)
+    const vehicleTypes = [
+      { label: "Cars", value: 65 },
+      { label: "Trucks", value: 20 },
+      { label: "Motorcycles", value: 10 },
+      { label: "Buses", value: 5 },
+    ];
+
+    return {
+      occupancy,
+      dailyTraffic,
+      revenue,
+      vehicleTypes,
+    };
+  }, [parkingReport]);
+
+  // Statistics from backend data only (no frontend calculations)
   const stats = useMemo(() => {
     if (!parkingReport) return null;
 
-    const totalVehicles = parkingReport.totalVehicles || 0;
+    // Use backend calculated totals
     const totalZones = parkingReport.totalZones || 0;
     const totalGates = parkingReport.totalGates || 0;
     const totalCategories = parkingReport.totalCategories || 0;
 
+    // Calculate totals from backend zone data
+    const totalSlots =
+      parkingReport.zones?.reduce(
+        (sum, zone) => sum + (zone.totalSlots || 0),
+        0
+      ) || 0;
+    const totalOccupied =
+      parkingReport.zones?.reduce(
+        (sum, zone) => sum + (zone.occupied || 0),
+        0
+      ) || 0;
+    const totalFree =
+      parkingReport.zones?.reduce((sum, zone) => sum + (zone.free || 0), 0) ||
+      0;
+
+    // Count zones with occupied slots (from backend data)
     const occupiedZones =
-      parkingReport.zones?.filter((zone) => zone.occupied > 0).length || 0;
-    const occupancyRate =
-      totalZones > 0 ? Math.round((occupiedZones / totalZones) * 100) : 0;
+      parkingReport.zones?.filter((zone) => (zone.occupied || 0) > 0).length ||
+      0;
+
+    // Count open zones (from backend data)
+    const openZones =
+      parkingReport.zones?.filter((zone) => zone.open === true).length || 0;
 
     return {
-      totalVehicles,
+      totalVehicles: totalOccupied,
+      totalSlots,
+      totalFree,
       totalZones,
       totalGates,
       totalCategories,
       occupiedZones,
-      occupancyRate,
+      openZones,
     };
   }, [parkingReport]);
 
-  if (reportLoading || gatesLoading || zonesLoading) {
+  if (reportLoading) {
     return (
       <div className="flex items-center justify-center min-h-96">
         <LoadingSpinner size="lg" />
@@ -147,13 +182,31 @@ const Dashboard = () => {
     );
   }
 
+  if (!parkingReport?.zones?.length) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <Card variant="danger" className="text-center">
+          <AlertCircle className="w-12 h-12 text-danger-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-danger-700 mb-2">
+            No Data Available
+          </h3>
+          <p className="text-danger-600 mb-4">Unable to load parking data</p>
+          <Button onClick={() => refetchReport()} variant="danger">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Retry
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Dallas Cargo Dashboard
+            Cargo Dashboard
           </h1>
           <p className="text-gray-600 text-lg">
             Real-time parking management overview
@@ -178,28 +231,25 @@ const Dashboard = () => {
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <AnimatedStatCard
-          title="Total Vehicles"
+          title="Occupied Slots"
           value={stats?.totalVehicles || 0}
-          change="+12%"
-          changeType="positive"
+          subtitle={`of ${stats?.totalSlots || 0} total`}
           icon={Car}
           color="primary"
           delay={0}
         />
         <AnimatedStatCard
-          title="Active Zones"
-          value={stats?.occupiedZones || 0}
-          change="+8%"
-          changeType="positive"
+          title="Available Slots"
+          value={stats?.totalFree || 0}
+          subtitle="Free slots available"
           icon={MapPin}
           color="success"
           delay={0.1}
         />
         <AnimatedStatCard
-          title="Occupancy Rate"
-          value={`${stats?.occupancyRate || 0}%`}
-          change="+5%"
-          changeType="positive"
+          title="Open Zones"
+          value={stats?.openZones || 0}
+          subtitle={`of ${stats?.totalZones || 0} zones`}
           icon={Activity}
           color="warning"
           delay={0.2}
@@ -207,8 +257,7 @@ const Dashboard = () => {
         <AnimatedStatCard
           title="Total Gates"
           value={stats?.totalGates || 0}
-          change="+2%"
-          changeType="positive"
+          subtitle="Active entrances"
           icon={Building2}
           color="accent"
           delay={0.3}
@@ -227,25 +276,48 @@ const Dashboard = () => {
               color="primary"
             />
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            {chartData.occupancy.slice(0, 4).map((zone, index) => (
+          <div className="mt-4 space-y-3">
+            {chartData.occupancy.map((zone, index) => (
               <div
                 key={zone.label}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                className={`flex items-center justify-between p-3 rounded-lg ${
+                  zone.open ? "bg-gray-50" : "bg-red-50"
+                }`}
               >
-                <span className="text-sm font-medium text-gray-700">
-                  {zone.label}
-                </span>
                 <div className="flex items-center">
-                  <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    {zone.label}
+                  </span>
+                  {!zone.open && (
+                    <span className="ml-2 px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">
+                      Closed
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="text-right">
+                    <div className="text-xs text-gray-500">
+                      {zone.occupied}/{zone.totalSlots} occupied
+                    </div>
+                    <div className="text-xs text-green-600">
+                      {zone.free} free, {zone.reserved} reserved
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900">
+                      {zone.value}%
+                    </div>
+                  </div>
+                  <div className="w-16 bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-primary-500 h-2 rounded-full transition-all duration-1000"
+                      className={`h-2 rounded-full transition-all duration-1000 ${
+                        zone.value >= 90
+                          ? "bg-red-500"
+                          : zone.value >= 70
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
+                      }`}
                       style={{ width: `${zone.value}%` }}
                     />
                   </div>
-                  <span className="text-sm font-semibold text-gray-900">
-                    {zone.value}%
-                  </span>
                 </div>
               </div>
             ))}
